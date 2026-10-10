@@ -158,6 +158,22 @@ footer .dot{display:inline-block;width:7px;height:7px;border-radius:50%;backgrou
 /* REVEAL */
 .rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
 .rv.in{opacity:1;transform:none}
+/* ENTRANCE */
+@keyframes riseIn{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}
+.hero-anim{opacity:0;animation:riseIn .9s cubic-bezier(.22,1,.36,1) forwards}
+.d1{animation-delay:.05s}.d2{animation-delay:.18s}.d3{animation-delay:.31s}.d4{animation-delay:.44s}.d5{animation-delay:.57s}.d6{animation-delay:.7s}
+/* TYPING CURSOR */
+.type-cursor{display:inline-block;width:9px;height:1.05em;background:var(--cyan);margin-left:5px;vertical-align:text-bottom;animation:blink 1s steps(1) infinite;box-shadow:0 0 8px var(--cyan)}
+@keyframes blink{50%{opacity:0}}
+/* NAV UNDERLINE */
+.nav-links a{position:relative}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:100%;height:1px;background:var(--cyan);transform:scaleX(0);transform-origin:right;transition:transform .3s}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+/* CARD SPOTLIGHT */
+.skill-card,.proj-card{position:relative}
+.skill-card::after,.proj-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(0,229,255,.10),transparent 65%)}
+.skill-card:hover::after,.proj-card:hover::after{opacity:1}
 /* RESPONSIVE */
 @media(max-width:960px){
   .hero-inner{grid-template-columns:1fr;gap:2.5rem}
@@ -198,17 +214,17 @@ footer .dot{display:inline-block;width:7px;height:7px;border-radius:50%;backgrou
 <header id="hero">
   <div class="hero-inner">
     <div>
-      <div class="hero-tag"><span class="pulse"></span>SR. NETWORK ENGINEER // ARLINGTON, TX</div>
-      <h1 class="hero-name">MAHESWAR<br><span class="grad">REDDY</span></h1>
-      <div class="hero-role">CISCO // AWS // PALO ALTO // TERRAFORM</div>
-      <p class="hero-desc"><strong>5+ years</strong> keeping enterprise networks alive, secure, and predictable. From Nexus data centers to AWS VPCs — I live near the routing table so your business doesn't have to think about it.</p>
-      <div class="hero-btns">
+      <div class="hero-tag hero-anim d1"><span class="pulse"></span>SR. NETWORK ENGINEER // ARLINGTON, TX</div>
+      <h1 class="hero-name hero-anim d2">MAHESWAR<br><span class="grad">REDDY</span></h1>
+      <div class="hero-role hero-anim d3"><span id="typer">CISCO // AWS // PALO ALTO // TERRAFORM</span><span class="type-cursor" aria-hidden="true"></span></div>
+      <p class="hero-desc hero-anim d4"><strong>5+ years</strong> keeping enterprise networks alive, secure, and predictable. From Nexus data centers to AWS VPCs — I live near the routing table so your business doesn't have to think about it.</p>
+      <div class="hero-btns hero-anim d5">
         <a href="#experience" class="btn btn-a">VIEW EXPERIENCE →</a>
         <a href="Maheswar-Reddy-Resume.pdf" class="btn btn-b" download>⭳ DOWNLOAD RESUME</a>
         <a href="#contact" class="btn btn-b">LET'S TALK</a>
       </div>
     </div>
-    <div class="hero-card rv">
+    <div class="hero-card hero-anim d6">
       <div class="hc-label">// QUICK STATS</div>
       <div class="stats-grid">
         <div class="stat"><div class="stat-num">5+</div><div class="stat-lbl">YEARS EXP</div></div>
@@ -415,6 +431,46 @@ document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
 // Nav shadow on scroll
 const nav=document.querySelector('nav');
 addEventListener('scroll',()=>{nav.style.boxShadow=scrollY>10?'0 8px 30px rgba(0,0,0,.45)':'none';},{passive:true});
+// Typing effect on hero role line
+(function(){
+  const el=document.getElementById('typer');
+  const phrases=['CISCO // AWS // PALO ALTO // TERRAFORM','BGP // OSPF // EIGRP // MPLS','VXLAN EVPN // ACI // DATA CENTER','ANSIBLE // TERRAFORM // AUTOMATION'];
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){el.textContent=phrases[0];return;}
+  let pi=0,ci=phrases[0].length,del=true;
+  function type(){
+    const cur=phrases[pi];
+    el.textContent=cur.slice(0,ci);
+    if(!del){ci++;if(ci>cur.length){del=true;return setTimeout(type,1900);}}
+    else{ci--;if(ci===0){del=false;pi=(pi+1)%phrases.length;}}
+    setTimeout(type,del?26:52);
+  }
+  setTimeout(type,2200);
+})();
+// Count-up stats
+(function(){
+  const nums=document.querySelectorAll('.stat-num');
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting)return;io.unobserve(e.target);
+    const el=e.target,raw=el.textContent.trim(),m=raw.match(/^(\d+)/);
+    if(!m)return;const target=+m[1],suffix=raw.slice(m[1].length);let s=null;
+    function step(t){if(!s)s=t;const p=Math.min((t-s)/1300,1),v=Math.round(target*(1-Math.pow(1-p,3)));
+      el.textContent=v+suffix;if(p<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);
+  }),{threshold:.5});
+  nums.forEach(n=>io.observe(n));
+})();
+// Card spotlight follows mouse
+document.querySelectorAll('.skill-card,.proj-card').forEach(c=>{
+  c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();
+    c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px');});
+});
+// Hero parallax on scroll
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const hi=document.querySelector('.hero-inner');
+  addEventListener('scroll',()=>{const y=scrollY;
+    if(y<innerHeight)hi.style.transform='translateY('+(y*.1)+'px)';},{passive:true});
+})();
 </script>
 </body>
 </html>
