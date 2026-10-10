@@ -174,6 +174,10 @@ footer .dot{display:inline-block;width:7px;height:7px;border-radius:50%;backgrou
 .skill-card::after,.proj-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;
   background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(0,229,255,.10),transparent 65%)}
 .skill-card:hover::after,.proj-card:hover::after{opacity:1}
+/* VIDEO INTRO */
+.video-card{max-width:880px;margin:0 auto;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#0b1220;box-shadow:0 24px 70px rgba(0,0,0,.55),0 0 0 1px rgba(0,229,255,.06)}
+.video-card video{display:block;width:100%;height:auto;background:#000}
+.video-note{text-align:center;color:var(--dim);font-size:.85rem;margin-top:14px;letter-spacing:.04em}
 /* RESPONSIVE */
 @media(max-width:960px){
   .hero-inner{grid-template-columns:1fr;gap:2.5rem}
@@ -202,6 +206,7 @@ footer .dot{display:inline-block;width:7px;height:7px;border-radius:50%;backgrou
 <nav>
   <a href="#hero" class="logo">GMR<b>://</b>NETWORK.ENG</a>
   <ul class="nav-links">
+    <li><a href="#intro">Intro</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#experience">Experience</a></li>
@@ -248,9 +253,22 @@ footer .dot{display:inline-block;width:7px;height:7px;border-radius:50%;backgrou
   </div>
 </div>
 
+<section id="intro">
+  <div class="sec-inner">
+    <div class="sec-label">01 // VIDEO INTRO</div>
+    <h2 class="sec-title rv">Meet me in <span class="grad">40 seconds</span></h2>
+    <div class="video-card rv">
+      <video controls preload="metadata" poster="intro-poster.jpg" playsinline>
+        <source src="maheswar-reddy-intro.mp4" type="video/mp4">
+      </video>
+    </div>
+    <p class="video-note rv">An animated walkthrough of my profile — experience, certifications, and what I bring to your network.</p>
+  </div>
+</section>
+
 <section id="about">
   <div class="sec-inner">
-    <div class="sec-label">01 // ABOUT ME</div>
+    <div class="sec-label">02 // ABOUT ME</div>
     <h2 class="sec-title rv">Who I Am</h2>
     <div class="about-grid">
       <div>
@@ -273,7 +291,7 @@ footer .dot{display:inline-block;width:7px;height:7px;border-radius:50%;backgrou
 
 <section id="skills" style="background:rgba(255,255,255,.012);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="sec-inner">
-    <div class="sec-label">02 // TECHNICAL STACK</div>
+    <div class="sec-label">03 // TECHNICAL STACK</div>
     <h2 class="sec-title rv">Skills</h2>
     <p class="sec-sub rv">The protocols, platforms, and tools I reach for every day.</p>
     <div class="skills-grid">
@@ -289,7 +307,7 @@ footer .dot{display:inline-block;width:7px;height:7px;border-radius:50%;backgrou
 
 <section id="experience">
   <div class="sec-inner">
-    <div class="sec-label">03 // WORK HISTORY</div>
+    <div class="sec-label">04 // WORK HISTORY</div>
     <h2 class="sec-title rv">Experience</h2>
     <p class="sec-sub rv">Five-plus years across enterprise, finance, and managed services.</p>
     <div class="timeline">
@@ -344,7 +362,7 @@ footer .dot{display:inline-block;width:7px;height:7px;border-radius:50%;backgrou
 
 <section id="projects" style="background:rgba(255,255,255,.012);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="sec-inner">
-    <div class="sec-label">04 // KEY PROJECTS</div>
+    <div class="sec-label">05 // KEY PROJECTS</div>
     <h2 class="sec-title rv">Projects</h2>
     <p class="sec-sub rv">Things I've designed, automated, and broken (then fixed) in the lab and in production.</p>
     <div class="proj-grid">
@@ -372,7 +390,7 @@ footer .dot{display:inline-block;width:7px;height:7px;border-radius:50%;backgrou
 
 <section id="contact">
   <div class="sec-inner">
-    <div class="sec-label" style="justify-content:center">05 // CONTACT</div>
+    <div class="sec-label" style="justify-content:center">06 // CONTACT</div>
     <div class="contact-card rv">
       <h2>Let's Build Something</h2>
       <p>Open to Senior Network Engineer and Network Architect roles.<br>If your network needs to stay up — I'm your person.</p>
